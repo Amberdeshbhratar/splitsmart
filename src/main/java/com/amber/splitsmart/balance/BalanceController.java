@@ -7,10 +7,12 @@ import java.util.*;
 import org.springframework.web.bind.annotation.*;
 @RestController @RequestMapping("/api/groups/{groupId}")
 public class BalanceController {
-    private final GroupRepository groups; private final ExpenseRepository expenses; private final ExpenseSplitRepository splits; private final DebtSimplificationEngine engine;
-    BalanceController(GroupRepository groups, ExpenseRepository expenses, ExpenseSplitRepository splits, DebtSimplificationEngine engine) { this.groups = groups; this.expenses = expenses; this.splits = splits; this.engine = engine; }
+    private final GroupRepository groups; private final ExpenseRepository expenses; private final ExpenseSplitRepository splits; private final DebtSimplificationEngine engine; private final ExpenseService expenseService;
+    BalanceController(GroupRepository groups, ExpenseRepository expenses, ExpenseSplitRepository splits, DebtSimplificationEngine engine, ExpenseService expenseService) { this.groups = groups; this.expenses = expenses; this.splits = splits; this.engine = engine; this.expenseService = expenseService; }
     @GetMapping("/balances") Map<Long, BigDecimal> balances(@PathVariable Long groupId) { return calculate(groupId); }
     @GetMapping("/settlement-suggestions") List<DebtSimplificationEngine.SettlementSuggestion> suggestions(@PathVariable Long groupId) { return engine.simplify(calculate(groupId)); }
+    @PostMapping("/settle-up") Expense settleUp(@PathVariable Long groupId, @RequestBody SettleUpRequest request) { return expenseService.recordSettlement(groupId, request.payerUserId(), request.payeeUserId(), request.amount()); }
+    record SettleUpRequest(Long payerUserId, Long payeeUserId, BigDecimal amount) { }
     private Map<Long, BigDecimal> calculate(Long groupId) {
         ExpenseGroup group = groups.findWithMembersById(groupId).orElseThrow(() -> new IllegalArgumentException("Group not found"));
         Map<Long, BigDecimal> net = new LinkedHashMap<>();
