@@ -3,6 +3,7 @@
 @import './responsive-theme.css';
 @import './mobile-layout.css';
 @import './color-accents.css';
+@import './professional.css';
 /* Search results stay in the document flow and cannot cover another form button. */
 .suggestions {
   position: static;
