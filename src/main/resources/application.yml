@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: splitsmart-api
+  datasource:
+    url: ${DATABASE_URL:jdbc:h2:file:./data/splitsmart;MODE=MySQL;AUTO_SERVER=TRUE}
+    username: ${DATABASE_USERNAME:sa}
+    password: ${DATABASE_PASSWORD:}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+  h2:
+    console:
+      enabled: true
+  flyway:
+    enabled: false
+server:
+  error:
+    include-message: never
+app:
+  jwt:
+    secret: ${JWT_SECRET:change-this-local-development-secret-to-a-long-random-value-2026}
+    expiration-hours: 24
+  mail:
+    provider: ${MAIL_PROVIDER:console}
+    from: ${MAIL_FROM:}
+  resend:
+    api-key: ${RESEND_API_KEY:}
+    from: ${RESEND_FROM:}

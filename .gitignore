@@ -1,0 +1,12 @@
+target/
+node_modules/
+.idea/
+.vscode/
+*.iml
+.env
+data/
+backend*.log
+frontend/.npm-cache/
+frontend/dist/
+frontend/node_modules/
+.tools/

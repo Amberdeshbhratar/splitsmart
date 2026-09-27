@@ -1,0 +1,14 @@
+@import './pages.css';
+@import './polish.css';
+@import './responsive-theme.css';
+@import './mobile-layout.css';
+@import './color-accents.css';
+/* Search results stay in the document flow and cannot cover another form button. */
+.suggestions {
+  position: static;
+  margin-top: 4px;
+}
+
+.person {
+  min-height: 56px;
+}
